@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Little Universe ❤️</title>
+<style>
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#050611;color:#fff;font-family:Inter,system-ui,sans-serif;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;background:radial-gradient(circle at 50% 20%,#29134d55,transparent 35%),radial-gradient(circle at 80% 80%,#ff2d6f22,transparent 30%);pointer-events:none}
+canvas{position:fixed;inset:0;z-index:-1}.screen{min-height:100vh;display:none;place-items:center;padding:28px;text-align:center}.screen.active{display:grid}
+.card{width:min(680px,94vw);padding:48px 32px;border:1px solid #ffffff18;border-radius:30px;background:#ffffff0b;backdrop-filter:blur(18px);box-shadow:0 20px 80px #0008}
+.kicker{letter-spacing:4px;text-transform:uppercase;color:#ff9ec2;font-size:.75rem}.title{font-size:clamp(2.4rem,8vw,5.5rem);line-height:.95;margin:18px 0}.subtitle{color:#c8c6d5;font-size:1.05rem;line-height:1.7}
+input{width:min(440px,90%);padding:17px 20px;border-radius:16px;border:1px solid #ffffff22;background:#080914;color:white;font-size:1rem;outline:none;text-align:center}
+button{border:0;border-radius:999px;padding:15px 28px;font-weight:800;font-size:1rem;cursor:pointer;transition:.25s;margin:8px;background:linear-gradient(135deg,#ff4d91,#9d5cff);color:white;box-shadow:0 10px 30px #ff4d9133}
+button:hover{transform:translateY(-3px) scale(1.03)}button.secondary{background:#ffffff12;box-shadow:none;border:1px solid #ffffff20}.msg{min-height:30px;margin:16px;color:#ffb7d0;font-weight:700}.progress{height:4px;background:#ffffff12;border-radius:5px;overflow:hidden;margin-bottom:30px}.progress span{display:block;height:100%;background:#ff5a9b;transition:.4s}
+.heart{font-size:5rem;filter:drop-shadow(0 0 25px #ff4d91);animation:pulse 1.5s infinite}@keyframes pulse{50%{transform:scale(1.15)}}
+#love h2{font-size:clamp(2.5rem,7vw,5rem);margin:10px}.choice{font-size:1.2rem;min-width:150px}.no{position:relative}
+#universe{display:none;padding-bottom:100px}.hero{min-height:100vh;display:grid;place-items:center;text-align:center;padding:30px}.hero h1{font-size:clamp(3rem,10vw,8rem);line-height:.85;margin:20px}.hero p{font-size:1.2rem;color:#d7d3e4}.section{width:min(1050px,92vw);margin:0 auto 120px}.section h2{text-align:center;font-size:clamp(2rem,5vw,4rem)}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}.tile{padding:28px;border:1px solid #ffffff16;background:#ffffff08;border-radius:24px;min-height:170px}.tile h3{color:#ff9fc3}.letter{font-family:Georgia,serif;font-size:1.15rem;line-height:2;color:#eee;padding:35px;border-radius:25px;background:#fff8;border:1px solid #fff2}.footer{text-align:center;color:#aaa;padding:50px}.secret{margin-top:30px;color:#ff9fc3}
+@media(max-width:600px){.card{padding:36px 18px}.title{font-size:3.2rem}}
+</style>
+</head>
+<body>
+<canvas id="stars"></canvas>
+
+<section id="welcome" class="screen active">
+ <div class="card">
+  <div class="kicker">A tiny secret awaits</div>
+  <div class="heart">♥</div>
+  <h1 class="title">Hey... wait a second 👀</h1>
+  <p class="subtitle">Before you enter, I have a few questions for you.<br>Don't worry... they're important. ❤️</p>
+  <button onclick="go(1)">START THE TEST →</button>
+ </div>
+</section>
+
+<section id="q1" class="screen">
+ <div class="card"><div class="progress"><span style="width:20%"></span></div>
+  <div class="kicker">Question 01</div><h1 class="title">What's your name?</h1>
+  <input id="herName" placeholder="Type your name..." autocomplete="off">
+  <div class="msg" id="m1"></div><button onclick="answerName()">CONTINUE →</button>
+ </div>
+</section>
+
+<section id="q2" class="screen">
+ <div class="card"><div class="progress"><span style="width:40%"></span></div>
+  <div class="kicker">Question 02</div><h1 class="title">Do you know me?</h1>
+  <p class="subtitle">Be honest. 👀</p>
+  <button class="choice" onclick="go(3)">YES ❤️</button><button class="choice secondary" onclick="knowNo()">NO 😭</button>
+  <div class="msg" id="m2"></div>
+ </div>
+</section>
+
+<section id="q3" class="screen">
+ <div class="card"><div class="progress"><span style="width:60%"></span></div>
+  <div class="kicker">Question 03</div><h1 class="title">What is my name?</h1>
+  <input id="myName" placeholder="Type my name..." autocomplete="off">
+  <div class="msg" id="m3"></div><button onclick="answerMyName()">CHECK →</button>
+ </div>
+</section>
+
+<section id="q4" class="screen">
+ <div class="card"><div class="progress"><span style="width:80%"></span></div>
+  <div class="kicker">Final test</div><h1 class="title">And your name?</h1>
+  <input id="herName2" placeholder="Type your name again..." autocomplete="off">
+  <div class="msg" id="m4"></div><button onclick="answerFinal()">UNLOCK →</button>
+ </div>
+</section>
+
+<section id="love" class="screen">
+ <div class="card">
+  <div class="heart">♥</div><div class="kicker">One last question...</div>
+  <h2>Do you like me?</h2>
+  <p class="subtitle">Choose carefully. 👀❤️</p>
+  <button class="choice" onclick="yes()">YES ❤️</button>
+  <button class="choice secondary no" id="noBtn" onclick="nope()">NO 💀</button>
+  <div class="msg" id="m5"></div>
+ </div>
+</section>
+
+<main id="universe">
+ <div class="hero">
+  <div><div class="kicker">Welcome to</div><h1>Our Little<br>Universe 🌌</h1><p>Two people. One story. A million memories waiting to happen.</p><button onclick="document.querySelector('#memories').scrollIntoView()">ENTER OUR UNIVERSE ↓</button></div>
+ </div>
+ <section class="section" id="memories"><h2>Little Things I Love ❤️</h2>
+  <div class="grid">
+   <div class="tile"><h3>Your Smile</h3><p>Somehow, it makes ordinary moments feel special.</p></div>
+   <div class="tile"><h3>Your Voice</h3><p>A sound I could listen to for way too long.</p></div>
+   <div class="tile"><h3>The Little Things</h3><p>The tiny things you probably don't even realize I notice.</p></div>
+  </div>
+ </section>
+ <section class="section"><h2>Our Story ✨</h2><div class="letter">
+  <p>Maybe our story isn't written in the stars. Maybe we are the ones writing it.</p>
+  <p>Every conversation, every laugh, every silly moment becomes another little piece of our universe.</p>
+  <p>And honestly... I hope there are a lot more chapters.</p>
+ </div></section>
+ <section class="section"><h2>A Letter For You 💌</h2><div class="letter">
+  <p>Hey you,</p>
+  <p>If you're reading this, you made it through my ridiculously dramatic little test. 😂</p>
+  <p>But the truth is simple: I made this because you're special to me. I wanted to create a tiny place on the internet that feels like ours.</p>
+  <p>Whatever happens next, thank you for being a part of my story.</p>
+  <p>— From someone who definitely likes you more than this website can explain. ❤️</p>
+ </div></section>
+ <div class="footer">Made with too much love, a little madness, and a lot of ❤️</div>
+</main>
+
+<script>
+const CORRECT_HER_NAME="Thamizhinisemmozhi";
+const CORRECT_MY_NAME="Nithish";
+let step=0;
+function show(id){document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active')}
+function go(n){show(['welcome','q1','q2','q3','q4'][n])}
+function answerName(){let v=document.getElementById('herName').value.trim();if(!v){m1.textContent="You have to tell me your name first 😭";return}window.her=v;m1.textContent="Hmm... noted 👀";setTimeout(()=>show('q2'),600)}
+function knowNo(){m2.textContent="Liar 😭 You know me. Try again.";setTimeout(()=>m2.textContent="",1200)}
+function answerMyName(){let v=document.getElementById('myName').value.trim();if(v.toLowerCase()===CORRECT_MY_NAME.toLowerCase()){m3.textContent="You remembered. ❤️";setTimeout(()=>show('q4'),700)}else m3.textContent="Nope 👀 Try again..."}
+function answerFinal(){let v=document.getElementById('herName2').value.trim();if(v.toLowerCase()===window.her.toLowerCase()){m4.textContent="Okay... you passed. ❤️";setTimeout(()=>show('love'),900)}else m4.textContent="That's not what you told me before 👀"}
+function nope(){let b=document.getElementById('noBtn');m5.textContent="Are you sure? Think carefully... 👀";b.style.position='fixed';b.style.left=(Math.random()*75+10)+'%';b.style.top=(Math.random()*70+10)+'%'}
+function yes(){for(let i=0;i<40;i++){let e=document.createElement('div');e.textContent=Math.random()>.5?'❤️':'✨';e.style.position='fixed';e.style.left=Math.random()*100+'vw';e.style.top='100vh';e.style.fontSize=(15+Math.random()*30)+'px';e.style.zIndex=99;document.body.appendChild(e);e.animate([{transform:'translateY(0)',opacity:1},{transform:'translateY(-110vh) rotate(360deg)',opacity:0}],{duration:1800+Math.random()*1600}).onfinish=()=>e.remove()}setTimeout(()=>{document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));document.getElementById('universe').style.display='block';window.scrollTo(0,0)},900)}
+const c=document.getElementById('stars'),ctx=c.getContext('2d');let stars=[];
+function resize(){c.width=innerWidth;c.height=innerHeight;stars=Array.from({length:Math.min(180,innerWidth/5)},()=>({x:Math.random()*c.width,y:Math.random()*c.height,r:Math.random()*1.5,s:.1+Math.random()*.35}))}resize();addEventListener('resize',resize);
+function animate(){ctx.clearRect(0,0,c.width,c.height);ctx.fillStyle='#fff';stars.forEach(s=>{s.y+=s.s;if(s.y>c.height)s.y=0;ctx.globalAlpha=.3+Math.random()*.7;ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fill()});requestAnimationFrame(animate)}animate();
+</script>
+</body>
+</html>
